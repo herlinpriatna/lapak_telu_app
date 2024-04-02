@@ -29,13 +29,13 @@ class ProfilPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: AssetImage('assets/images/lulu.jpg'),
+                      backgroundImage: AssetImage('assets/images/logo_lapak.png'),
                     ),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nurul Pratiwi'),
+                        Text('Muhammad Zulfadly'),
                         Text('Buah Batu'),
                       ],
                     ),

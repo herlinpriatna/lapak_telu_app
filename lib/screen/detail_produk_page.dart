@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:lapak_telu_app/data/produk.dart'; 
+import 'package:lapak_telu_app/data/produk.dart';
+import 'package:lapak_telu_app/screen/home_page.dart';
+import 'package:lapak_telu_app/screen/home_screen.dart'; 
 
 class DetailProdukPage extends StatelessWidget {
   final Produk product;
@@ -12,7 +14,12 @@ class DetailProdukPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));// Perintah untuk kembali ke halaman sebelumnya
+          },
+        ),
         title: Text(
           'Detail Produk',
           style: TextStyle(
@@ -36,7 +43,7 @@ class DetailProdukPage extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(24),
+                margin: EdgeInsets.all(18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -62,7 +69,7 @@ class DetailProdukPage extends StatelessWidget {
                     Row(children: [
                       Container(
                           padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.all(8),
+                          margin: EdgeInsets.all(12),
                           child: Icon(Icons.share_outlined),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black12),
@@ -106,7 +113,7 @@ class DetailProdukPage extends StatelessWidget {
                         ),
                         SizedBox(width: 102),
                         Text(
-                          '2',
+                          '${product.stock}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -126,7 +133,7 @@ class DetailProdukPage extends StatelessWidget {
                         ),
                         SizedBox(width: 81),
                         Text(
-                          'Mulus seperti baru',
+                          '${product.condition}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -155,7 +162,7 @@ class DetailProdukPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               margin: EdgeInsets.all(24),
-              width: 134,
+              width: double.infinity,
               height: 37,
               decoration: BoxDecoration(
                 color: Colors.transparent,

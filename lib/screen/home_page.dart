@@ -337,16 +337,27 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     // Nama produk
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        product.name,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
+                                     Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  product.name,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.favorite),
+                                color: Colors.grey,
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ),
                                     // Harga produk
                                     Padding(
                                       padding: const EdgeInsets.all(8),

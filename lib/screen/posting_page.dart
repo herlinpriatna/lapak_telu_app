@@ -25,7 +25,7 @@ class _PostingProduk extends State<PostingProduk> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldMessengerKey,
-      appBar: AppBar(
+       appBar: AppBar(
         title: Text(
           "Posting Produk",
           style: TextStyle(
@@ -36,6 +36,7 @@ class _PostingProduk extends State<PostingProduk> {
         ),
         centerTitle: true,
         backgroundColor: Colors.blue,
+         automaticallyImplyLeading: false
       ),
       body: SingleChildScrollView(
         child: Padding(
