@@ -10,19 +10,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      Column(
+      body: Column(
         children: [
-          
           // navbar top
           Container(
             padding: EdgeInsets.only(top: 12, left: 16),
-          // biar bisa ukuran containernya gak terbatas
+            // biar bisa ukuran containernya gak terbatas
             color: Colors.blue,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                     const Padding(
+                      const Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,14 +110,11 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     margin: EdgeInsets.all(12),
                     color: Colors.white,
-                   
                     child: Row(
                       children: [
                         Expanded(
                           child: TextField(
-                          
                             decoration: InputDecoration(
-                              
                               hintText: 'Mau cari produk apa nii?',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -314,7 +307,6 @@ class _HomePageState extends State<HomePage> {
                               },
                               child: Card(
                                 elevation: 2,
-                             
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -325,7 +317,6 @@ class _HomePageState extends State<HomePage> {
                                     Expanded(
                                       child: Container(
                                         decoration: BoxDecoration(
-                                   
                                           borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(8),
                                           ),
@@ -337,27 +328,27 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     // Nama produk
-                                     Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  product.name,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.favorite),
-                                color: Colors.grey,
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              product.name,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.favorite),
+                                            color: Colors.grey,
+                                            onPressed: () {},
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     // Harga produk
                                     Padding(
                                       padding: const EdgeInsets.all(8),
@@ -370,7 +361,6 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     // Button Beli
-                                    
                                   ],
                                 ),
                               ));
@@ -382,9 +372,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-        
-      
-           
         ],
       ),
     );

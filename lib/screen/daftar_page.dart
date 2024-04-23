@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lapak_telu_app/screen/login_page.dart';
 
-
-  
 class DaftarPage extends StatefulWidget {
   @override
   _DaftarPageState createState() => _DaftarPageState();
@@ -15,7 +13,7 @@ class _DaftarPageState extends State<DaftarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''), 
+        title: Text(''),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -23,7 +21,6 @@ class _DaftarPageState extends State<DaftarPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        
             Container(
               padding: EdgeInsets.only(bottom: 8.0),
               child: Column(
@@ -37,7 +34,7 @@ class _DaftarPageState extends State<DaftarPage> {
                     ),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 8.0), 
+                  SizedBox(height: 8.0),
                 ],
               ),
             ),
@@ -142,11 +139,10 @@ class _DaftarPageState extends State<DaftarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Checkbox(
-                  value: agreeToTerms, 
+                  value: agreeToTerms,
                   onChanged: (value) {
                     setState(() {
-                      agreeToTerms =
-                          value!; 
+                      agreeToTerms = value!;
                     });
                   },
                 ),
@@ -186,22 +182,23 @@ class _DaftarPageState extends State<DaftarPage> {
               children: [
                 Text('Sudah punya akun? '),
                 Align(
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                child: const Text(
-                  'Masuk Disini',
-                  style: TextStyle(
-                    color: Color(0xFF3570D6), // Ubah warna teks jika diinginkan
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: const Text(
+                      'Masuk Disini',
+                      style: TextStyle(
+                        color: Color(
+                            0xFF3570D6), // Ubah warna teks jika diinginkan
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
               ],
             ),
             SizedBox(height: 15.0),
@@ -234,12 +231,12 @@ class _DaftarPageState extends State<DaftarPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        ' dari Lapak Tel-U. ',
-                        textAlign: TextAlign.center,
-                      ),
                     ],
-                  )
+                  ),
+                  Text(
+                    ' dari Lapak Tel-U. ',
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),

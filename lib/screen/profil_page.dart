@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lapak_telu_app/screen/edit_profil_page.dart';
+import 'package:lapak_telu_app/screen/login_page.dart';
+import 'package:lapak_telu_app/screen/toko_page.dart';
 
 class ProfilPage extends StatelessWidget {
   const ProfilPage({Key? key}) : super(key: key);
@@ -8,12 +10,12 @@ class ProfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile", style: TextStyle(color: Colors.white)),
+        title: Center(
+            child: Text("Profile",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold))),
         backgroundColor: Colors.blue,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {},
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -29,7 +31,8 @@ class ProfilPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: AssetImage('assets/images/logo_lapak.png'),
+                      backgroundImage:
+                          AssetImage('assets/images/logo_lapak.png'),
                     ),
                     SizedBox(width: 10),
                     Column(
@@ -51,9 +54,8 @@ class ProfilPage extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(12)
-                    ),
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(12)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(Icons.edit, color: Colors.blue),
@@ -62,23 +64,34 @@ class ProfilPage extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 25), // Menambahkan jarak vertikal antara kotak dan profil
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.house, color: Colors.blue),
-                    SizedBox(width: 10),
-                    Text('Lihat Toko Anda'),
-                    Spacer(),
-                    Icon(Icons.arrow_forward, color: Colors.blue,),
-                  ],
+            SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                // Navigasi ke halaman detail produk ketika produk diklik
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TokoPage(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.blue),
+                      SizedBox(width: 10),
+                      Text('Lihat Toko Anda'),
+                      Spacer(),
+                      Icon(Icons.arrow_forward, color: Colors.blue),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -93,7 +106,10 @@ class ProfilPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Icon(Icons.settings, color: Colors.blue,),
+                    Icon(
+                      Icons.settings,
+                      color: Colors.blue,
+                    ),
                     SizedBox(width: 10),
                     Text('Pengaturan Aplikasi'),
                     Spacer(),
@@ -102,43 +118,33 @@ class ProfilPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10), // Menambahkan jarak vertikal antara kotak
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.phone, color: Colors.blue,),
-                    SizedBox(width: 10),
-                    Text('Pusat Bantuan'),
-                    Spacer(),
-                    Icon(Icons.arrow_forward, color: Colors.blue,),
-                  ],
+            SizedBox(height: 10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) =>
+                      false, // hapus semua rute di atas halaman login
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-              ),
-            ),
-            SizedBox(height: 10), // Menambahkan jarak vertikal antara kotak dan profil
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, color: Colors.blue,),
-                    SizedBox(width: 10),
-                    Text('Keluar Akun'),
-                    Spacer(),
-                    Icon(Icons.arrow_forward, color: Colors.blue,),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.blue),
+                      SizedBox(width: 10),
+                      Text('Keluar Akun'),
+                      Spacer(),
+                      Icon(Icons.arrow_forward, color: Colors.blue),
+                    ],
+                  ),
                 ),
               ),
             ),

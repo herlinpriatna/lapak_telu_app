@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:lapak_telu_app/data/produk.dart';
-
-class Product {
-  final String name;
-  final int price;
-  final String image;
-
-  Product({required this.name, required this.price, required this.image});
-}
+import 'package:lapak_telu_app/screen/detail_produk_page.dart';
 
 class EksplorasiPage extends StatefulWidget {
+  const EksplorasiPage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _EksplorasiPageState createState() => _EksplorasiPageState();
 }
 
-class _HomePageState extends State<EksplorasiPage> {
+class _EksplorasiPageState extends State<EksplorasiPage> {
+  List<Produk> displayedProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMoreProducts();
+  }
+
+  void loadMoreProducts() {
+    setState(() {
+      int currentIndex = displayedProducts.length;
+      int endIndex =
+          currentIndex + 4 < produks.length ? currentIndex + 4 : produks.length;
+      displayedProducts.addAll(produks.sublist(currentIndex, endIndex));
+    });
+  }
+
   int selectedCategoryIndex = -1;
   Color iconColor = Colors.grey;
+
+  // Set untuk menyimpan indeks produk yang disukai
+  Set<int> likedProductIndexes = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Eksplorasi", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-      ),
+          title: Center(
+              child: Text("Eksplorasi",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold))),
+          backgroundColor: Colors.blue,
+          automaticallyImplyLeading: false),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Column(
@@ -121,79 +138,46 @@ class _HomePageState extends State<EksplorasiPage> {
                 ),
               ),
             ),
-            //Product
+
             Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: produks.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var product = produks[index];
-                  return Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(8),
-                              ),
-                              image: DecorationImage(
-                                image: AssetImage(product.image),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+              child: ListView.builder(
+                itemCount: displayedProducts.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailProdukPage(
+                            product: displayedProducts[index],
                           ),
                         ),
-                        // Harga produk dan IconButton
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  product.name,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.favorite),
-                                color: iconColor,
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
+                      );
+                    },
+                    child: Card(
+                      elevation: 2,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: ListTile(
+                        leading: Image.asset(
+                          displayedProducts[index].image,
+                          width: 50,
+                          height: 50,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            'Rp ${product.price}',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        // Button Beli
-                      ],
+                        title: Text(displayedProducts[index].name),
+                        subtitle: Text("\Rp ${displayedProducts[index].price}"),
+                      ),
                     ),
                   );
                 },
               ),
             ),
+
+            if (displayedProducts.length < produks.length)
+              ElevatedButton(
+                onPressed: loadMoreProducts,
+                child: Text("Load More"),
+              ),
           ],
         ),
       ),

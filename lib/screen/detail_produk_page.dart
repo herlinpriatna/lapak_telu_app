@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:lapak_telu_app/data/produk.dart';
-import 'package:lapak_telu_app/screen/home_page.dart';
-import 'package:lapak_telu_app/screen/home_screen.dart'; 
+import 'package:lapak_telu_app/screen/home_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:clipboard/clipboard.dart';
 
 class DetailProdukPage extends StatelessWidget {
   final Produk product;
@@ -17,7 +17,7 @@ class DetailProdukPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));// Perintah untuk kembali ke halaman sebelumnya
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -37,9 +37,7 @@ class DetailProdukPage extends StatelessWidget {
               Center(
                 child: Container(
                   margin: EdgeInsets.all(24),
-                  child: Image.asset(
-                    product.image
-                  ),
+                  child: Image.asset(product.image),
                 ),
               ),
               Container(
@@ -68,13 +66,80 @@ class DetailProdukPage extends StatelessWidget {
                     ),
                     Row(children: [
                       Container(
-                          padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.all(12),
-                          child: Icon(Icons.share_outlined),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(8),
-                          )),
+                        padding: EdgeInsets.all(5),
+                        margin: EdgeInsets.all(8),
+                        child: IconButton(
+                          icon: Icon(Icons.share_outlined),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Bagikan Produk"),
+                                  content: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          final url =
+                                              'https://lapak-telu.com/produk/${product.name}';
+                                          FlutterClipboard.copy(url).then(
+                                              (value) =>
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                            'Link berhasil disalin')),
+                                                  ));
+                                        },
+                                        child: Image.asset(
+                                          'assets/images/icon-link.png',
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          final url = 'https://wa.me/';
+                                          launch(url);
+                                        },
+                                        child: Image.asset(
+                                          'assets/images/icon-whatsapp.png',
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          final url = 'https://instagram/';
+                                          launch(url);
+                                        },
+                                        child: Image.asset(
+                                          'assets/images/icon-instagram.png',
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          final url = 'https://facebook/';
+                                          launch(url);
+                                        },
+                                        child: Image.asset(
+                                          'assets/images/icon-facebook.png',
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
                       Container(
                           padding: EdgeInsets.all(5),
                           margin: EdgeInsets.all(8),

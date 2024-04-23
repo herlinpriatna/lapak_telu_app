@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lapak_telu_app/screen/login_page.dart';
 import 'package:lapak_telu_app/screen/splash_screen.dart';
 
 void main() {

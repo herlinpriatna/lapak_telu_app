@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lapak_telu_app/screen/daftar_page.dart';
-import 'package:lapak_telu_app/screen/home_page.dart';
 import 'package:lapak_telu_app/screen/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -124,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 String username = _usernameController.text;
                 String password = _passwordController.text;
-                if (username == 'kwachii' && password == 'kuaci') {
+                if (username == 'user' && password == 'user') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MainScreen()),
