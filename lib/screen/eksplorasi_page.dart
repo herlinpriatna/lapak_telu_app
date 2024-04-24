@@ -11,6 +11,14 @@ class EksplorasiPage extends StatefulWidget {
 
 class _EksplorasiPageState extends State<EksplorasiPage> {
   List<Produk> displayedProducts = [];
+  List<String> kategori = [
+    'Pakaian',
+    'Elektronik',
+    'Smartphone',
+    'Buku',
+    'Celana',
+    'Mainan'
+  ];
 
   @override
   void initState() {
@@ -23,7 +31,16 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
       int currentIndex = displayedProducts.length;
       int endIndex =
           currentIndex + 4 < produks.length ? currentIndex + 4 : produks.length;
-      displayedProducts.addAll(produks.sublist(currentIndex, endIndex));
+
+      // Filter produk berdasarkan kategori yang dipilih (jika ada)
+      if (selectedCategoryIndex != -1) {
+        displayedProducts.addAll(produks
+            .where(
+                (produk) => produk.category == kategori[selectedCategoryIndex])
+            .toList());
+      } else {
+        displayedProducts.addAll(produks.sublist(currentIndex, endIndex));
+      }
     });
   }
 
@@ -81,7 +98,45 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                   IconButton(
                     icon: Icon(Icons.filter_list),
                     color: Colors.blue,
-                    onPressed: () => {},
+                    onPressed: () => {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Filter Pencarian"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SimpleDialogOption(
+                                  onPressed: () {},
+                                  child: Text('Termurah'),
+                                ),
+                                SimpleDialogOption(
+                                  onPressed: () {},
+                                  child: Text('Termahal'),
+                                ),
+                                SimpleDialogOption(
+                                  onPressed: () {},
+                                  child: Text('Terdekat'),
+                                ),
+                                SimpleDialogOption(
+                                  onPressed: () {},
+                                  child: Text('Terjauh'),
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Terapkan'),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    },
                   ),
                 ],
               ),
@@ -94,19 +149,15 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                 height: 40.0,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,
+                  itemCount: kategori.length,
                   itemBuilder: (context, index) {
-                    final kategori = [
-                      'Produk Baru',
-                      'Produk Populer',
-                      'Pakaian',
-                      'Elektronik',
-                      'Smartphone'
-                    ][index];
                     return GestureDetector(
                       onTap: () {
                         setState(() {
                           selectedCategoryIndex = index;
+                          // Clear displayed products before loading new ones
+                          displayedProducts.clear();
+                          loadMoreProducts();
                         });
                       },
                       child: Container(
@@ -123,7 +174,7 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                         padding: EdgeInsets.symmetric(horizontal: 12.0),
                         child: Center(
                           child: Text(
-                            kategori,
+                            kategori[index],
                             style: TextStyle(
                               fontSize: 14.0,
                               color: selectedCategoryIndex == index

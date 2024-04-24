@@ -99,11 +99,11 @@ class ProfilPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.settings,
+                        Icons.edit,
                         color: Colors.blue,
                       ),
                       SizedBox(width: 10),
-                      Text('Pengaturan'),
+                      Text('Edit Profile'),
                       Spacer(),
                       Icon(Icons.arrow_forward, color: Colors.blue),
                     ],
