@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lapak_telu_app/data/produk.dart';
-import 'package:lapak_telu_app/screen/home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
 
-class DetailProdukPage extends StatelessWidget {
+class DetailProdukPage extends StatefulWidget {
   final Produk product;
 
   const DetailProdukPage({Key? key, required this.product}) : super(key: key);
+
+  @override
+  _DetailProdukPageState createState() => _DetailProdukPageState();
+}
+
+class _DetailProdukPageState extends State<DetailProdukPage> {
+  bool isLiked = false; // Variabel untuk melacak status like produk
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +43,11 @@ class DetailProdukPage extends StatelessWidget {
               Center(
                 child: Container(
                   margin: EdgeInsets.all(24),
-                  child: Image.asset(product.image),
+                  child: Image.asset(widget.product.image),
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(18),
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -49,14 +55,14 @@ class DetailProdukPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.name,
+                          widget.product.name,
                           style: TextStyle(
                             fontSize: 20,
                             color: const Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
                         Text(
-                          'Rp${product.price}',
+                          'Rp${widget.product.price}',
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -64,103 +70,114 @@ class DetailProdukPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.all(8),
-                        child: IconButton(
-                          icon: Icon(Icons.share_outlined),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Bagikan Produk"),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                          final url =
-                                              'https://lapak-telu.com/produk/${product.name}';
-                                          FlutterClipboard.copy(url).then(
+                    Row(
+                      children: [
+                        Container(
+                          child: IconButton(
+                            icon: Icon(Icons.share_outlined),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Bagikan Produk"),
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            final url =
+                                                'https://lapak-telu.com/produk/${widget.product.name}';
+                                            FlutterClipboard.copy(url).then(
                                               (value) =>
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
-                                                    SnackBar(
-                                                        content: Text(
-                                                            'Link berhasil disalin')),
-                                                  ));
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/icon-link.png',
-                                          width: 40,
-                                          height: 40,
+                                                SnackBar(
+                                                  content: Text(
+                                                      'Link berhasil disalin'),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/icon-link.png',
+                                            width: 40,
+                                            height: 40,
+                                          ),
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          final url = 'https://wa.me/';
-                                          launch(url);
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/icon-whatsapp.png',
-                                          width: 40,
-                                          height: 40,
+                                        TextButton(
+                                          onPressed: () {
+                                            final url = 'https://wa.me/';
+                                            launch(url);
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/icon-whatsapp.png',
+                                            width: 40,
+                                            height: 40,
+                                          ),
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          final url = 'https://instagram/';
-                                          launch(url);
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/icon-instagram.png',
-                                          width: 40,
-                                          height: 40,
+                                        TextButton(
+                                          onPressed: () {
+                                            final url = 'https://instagram/';
+                                            launch(url);
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/icon-instagram.png',
+                                            width: 40,
+                                            height: 40,
+                                          ),
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          final url = 'https://facebook/';
-                                          launch(url);
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/icon-facebook.png',
-                                          width: 40,
-                                          height: 40,
+                                        TextButton(
+                                          onPressed: () {
+                                            final url = 'https://facebook/';
+                                            launch(url);
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/icon-facebook.png',
+                                            width: 40,
+                                            height: 40,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.all(8),
-                          child: Icon(Icons.favorite_border),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(8),
-                          )),
-                    ])
+                        Container(
+                          child: IconButton(
+                            // Mengubah warna ikon berdasarkan status like
+                            icon: Icon(
+                              isLiked ? Icons.favorite : Icons.favorite_border,
+                              color: isLiked ? Colors.red : Colors.black87,
+                            ),
+                            onPressed: () {
+                              // Menambah atau menghapus indeks produk dari set yang disukai
+                              setState(() {
+                                isLiked = !isLiked;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              Divider(
-                thickness: 2,
-                color: Colors.grey,
-              ),
+              SizedBox(height: 10),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 24),
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Divider(
+                      thickness: 2,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 10),
                     Text(
                       'Detail',
                       style:
@@ -178,7 +195,7 @@ class DetailProdukPage extends StatelessWidget {
                         ),
                         SizedBox(width: 102),
                         Text(
-                          '${product.stock}',
+                          '${widget.product.stock}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -198,7 +215,7 @@ class DetailProdukPage extends StatelessWidget {
                         ),
                         SizedBox(width: 81),
                         Text(
-                          '${product.condition}',
+                          '${widget.product.condition}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -213,10 +230,34 @@ class DetailProdukPage extends StatelessWidget {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      product.description,
+                      widget.product.description,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 15,
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    Divider(
+                      thickness: 2,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundImage:
+                              AssetImage('assets/images/logo_lapak.png'),
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Muhammad Zulfadly'),
+                            Text('Buah Batu'),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),

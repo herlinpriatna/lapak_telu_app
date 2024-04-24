@@ -176,7 +176,10 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
             if (displayedProducts.length < produks.length)
               ElevatedButton(
                 onPressed: loadMoreProducts,
-                child: Text("Load More"),
+                child: Text(
+                  "Load More",
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
           ],
         ),

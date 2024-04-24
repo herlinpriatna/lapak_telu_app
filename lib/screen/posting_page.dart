@@ -1,17 +1,36 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
-class PostingProduk extends StatefulWidget {
+void main() => runApp(PostingProduk());
+
+class PostingProduk extends StatelessWidget {
   @override
-  _PostingProduk createState() => _PostingProduk();
+  Widget build(BuildContext context) {
+    const appTitle = 'Posting produk page';
+    return MaterialApp(
+      title: appTitle,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Home(),
+    );
+  }
 }
 
-class _PostingProduk extends State<PostingProduk> {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-
-  // Menambahkan variabel untuk menyimpan kategori produk yang dipilih
+  XFile? _image; // Variabel untuk menyimpan gambar yang dipilih
+  final picker = ImagePicker(); // Instance dari ImagePicker
   String? selectedCategory;
 
   // Daftar kategori produk untuk dropdown
@@ -20,7 +39,43 @@ class _PostingProduk extends State<PostingProduk> {
   void validateInput() {
     if (formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Proses validasi sukses")));
+          .showSnackBar(SnackBar(content: Text("Berhasil menyipana")));
+    }
+  }
+
+  Future pickImage(ImageSource source) async {
+    // Untuk memilih gambar dari galeri
+    try {
+      final pickedFile = await picker.pickImage(source: source);
+
+      setState(() {
+        if (pickedFile != null) {
+          _image = pickedFile;
+        } else {
+          print('No image selected.');
+        }
+      });
+    } catch (e) {
+      print('Error occurred while picking image: $e');
+    }
+  }
+
+  Widget imagePreview() {
+    // Untuk Mengpreview gambar yang sudah di upload
+    if (_image != null) {
+      return Image.file(File(_image!.path),
+          fit: BoxFit.cover, width: double.infinity, height: 150);
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(Icons.camera_alt,
+              size: 50, color: const Color.fromRGBO(117, 117, 117, 1)),
+          SizedBox(height: 8),
+          Text("Tap untuk upload foto",
+              style: TextStyle(color: Color(0xFF616161))),
+        ],
+      );
     }
   }
 
@@ -29,13 +84,12 @@ class _PostingProduk extends State<PostingProduk> {
     return Scaffold(
       key: scaffoldMessengerKey,
       appBar: AppBar(
-        title: Center(
-            child: Text("Posting Produk",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold))),
-        backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-      ),
+          title: Center(
+              child: Text("Posting Produk",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold))),
+          backgroundColor: Colors.blue,
+          automaticallyImplyLeading: false),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.0),
@@ -211,31 +265,44 @@ class _PostingProduk extends State<PostingProduk> {
 
                 InkWell(
                   onTap: () {
-                    // Tempatkan logika untuk memilih foto dari galeri atau kamera
-                    // Misalnya, menggunakan package seperti image_picker untuk memilih foto
+                    // Tampilkan dialog untuk memilih dari Kamera atau Galeri
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SafeArea(
+                          child: Wrap(
+                            children: <Widget>[
+                              ListTile(
+                                leading: new Icon(Icons.photo_library),
+                                title: new Text('Galeri'),
+                                onTap: () {
+                                  pickImage(ImageSource.gallery);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                leading: new Icon(Icons.photo_camera),
+                                title: new Text('Kamera'),
+                                onTap: () {
+                                  pickImage(ImageSource.camera);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
                   child: Container(
-                    height: 150, // Atur tinggi
-                    width: double
-                        .infinity, // Atur lebar, double.infinity untuk lebar maksimal dalam parent
+                    height: 150,
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.black12, // Warna latar belakang kotak
-                      borderRadius:
-                          BorderRadius.circular(12), // Radius border kotak
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment
-                          .center, // Pusatkan ikon dan teks secara vertikal
-                      children: <Widget>[
-                        Icon(Icons.camera_alt,
-                            size: 50,
-                            color: const Color.fromRGBO(
-                                117, 117, 117, 1)), // Ikon kamera
-                        SizedBox(height: 8), // Jarak antara ikon dan teks
-                        Text("Tap untuk upload foto",
-                            style: TextStyle(color: Color(0xFF616161))), // Teks
-                      ],
-                    ),
+                    child:
+                        imagePreview(), // Memanggil fungsi untuk menampilkan gambar
                   ),
                 ),
 
@@ -257,6 +324,7 @@ class _PostingProduk extends State<PostingProduk> {
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
+                                // Desain Button
                                 backgroundColor: Colors.blue,
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
