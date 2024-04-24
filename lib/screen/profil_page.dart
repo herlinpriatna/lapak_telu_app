@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lapak_telu_app/screen/edit_profil_page.dart';
 import 'package:lapak_telu_app/screen/login_page.dart';
 import 'package:lapak_telu_app/screen/toko_page.dart';
@@ -23,48 +24,31 @@ class ProfilPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
                   children: [
                     CircleAvatar(
-                      radius: 20,
+                      radius: 40,
                       backgroundImage:
                           AssetImage('assets/images/logo_lapak.png'),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 20),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Muhammad Zulfadly'),
+                        Text(
+                          'Muhammad Zulfadly',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
                         Text('Buah Batu'),
                       ],
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // Navigasi ke halaman edit profil ketika ikon edit diklik
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EditProfilPage()),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.edit, color: Colors.blue),
-                    ),
-                  ),
-                )
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             GestureDetector(
               onTap: () {
                 // Navigasi ke halaman detail produk ketika produk diklik
@@ -95,37 +79,70 @@ class ProfilPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10), // Menambahkan jarak vertikal antara kotak
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(width: 10),
-                    Text('Pengaturan Aplikasi'),
-                    Spacer(),
-                    Icon(Icons.arrow_forward, color: Colors.blue),
-                  ],
+            SizedBox(height: 10),
+            GestureDetector(
+              onTap: () {
+                // Navigasi ke halaman edit profil ketika ikon edit diklik
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfilPage()),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.settings,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(width: 10),
+                      Text('Pengaturan'),
+                      Spacer(),
+                      Icon(Icons.arrow_forward, color: Colors.blue),
+                    ],
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                  (Route<dynamic> route) =>
-                      false, // hapus semua rute di atas halaman login
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text(
+                          'Apakah Anda yakin ingin keluar dari akun Anda?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Batal',
+                              style: TextStyle(color: Colors.black54)),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Text(
+                            'Keluar',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
               child: Container(

@@ -3,15 +3,32 @@ import 'package:lapak_telu_app/data/produk.dart';
 import 'package:lapak_telu_app/screen/detail_produk_page.dart';
 
 class TokoPage extends StatefulWidget {
+  const TokoPage({Key? key}) : super(key: key);
+
   @override
   _TokoPageState createState() => _TokoPageState();
 }
 
 class _TokoPageState extends State<TokoPage> {
+  List<Produk> displayedProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMoreProducts();
+  }
+
+  void loadMoreProducts() {
+    setState(() {
+      int currentIndex = displayedProducts.length;
+      int endIndex =
+          currentIndex + 4 < produks.length ? currentIndex + 4 : produks.length;
+      displayedProducts.addAll(produks.sublist(currentIndex, endIndex));
+    });
+  }
+
   int selectedCategoryIndex = -1;
   Color iconColor = Colors.grey;
-
-  Set<int> likedProductIndexes = {};
 
   @override
   Widget build(BuildContext context) {
@@ -35,107 +52,75 @@ class _TokoPageState extends State<TokoPage> {
         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Column(
           children: [
-            //Product
             Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: produks.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var product = produks[index];
-                  // Menentukan apakah produk ada di dalam set produk yang disukai
-                  bool isLiked = likedProductIndexes.contains(index);
+              child: GridView.count(
+                crossAxisCount: 2, // Dua kolom
+                childAspectRatio:
+                    0.7, // Rasio lebar-ke-tinggi untuk setiap item
+                padding: EdgeInsets.all(12.0),
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                children: displayedProducts.map((produk) {
                   return GestureDetector(
                     onTap: () {
-                      // Navigasi ke halaman detail produk ketika produk diklik
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              DetailProdukPage(product: product),
+                          builder: (context) => DetailProdukPage(
+                            product: produk,
+                          ),
                         ),
                       );
                     },
                     child: Card(
                       elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(8),
-                                ),
-                                image: DecorationImage(
-                                  image: AssetImage(product.image),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            child: Image.asset(
+                              produk.image,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          // Harga produk dan IconButton
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Row(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    product.name,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                                Text(
+                                  produk.name,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
                                 ),
-                                IconButton(
-                                  // Mengubah warna ikon berdasarkan status like
-                                  icon: Icon(
-                                    isLiked
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: isLiked ? Colors.red : iconColor,
+                                Text(
+                                  "\Rp ${produk.price}",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  onPressed: () {
-                                    // Menambah atau menghapus indeks produk dari set yang disukai
-                                    setState(() {
-                                      if (isLiked) {
-                                        likedProductIndexes.remove(index);
-                                      } else {
-                                        likedProductIndexes.add(index);
-                                      }
-                                    });
-                                  },
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'Rp ${product.price}',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          // Button Beli
                         ],
                       ),
                     ),
                   );
-                },
+                }).toList(),
               ),
             ),
+
+            // Load More Button
+            if (displayedProducts.length < produks.length)
+              ElevatedButton(
+                onPressed: loadMoreProducts,
+                child: Text(
+                  "Lebih banyak",
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
           ],
         ),
       ),

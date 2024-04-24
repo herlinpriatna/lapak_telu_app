@@ -179,44 +179,23 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           width: 300,
                           margin: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                           child: Center(
-                            child: Text(
-                              'Slide Banner 1',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                              child: Image.asset('assets/images/banner-1.png',
+                                  fit: BoxFit.cover)),
                         ),
                         Container(
                           width: 300,
                           margin: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                           child: Center(
-                            child: Text(
-                              'Slide Banner 2',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                              child: Image.asset('assets/images/banner-2.png',
+                                  fit: BoxFit.cover)),
                         ),
                         Container(
                           width: 300,
                           margin: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                           child: Center(
-                            child: Text(
-                              'Slide Banner 3',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                              child: Image.asset('assets/images/banner-3.png',
+                                  fit: BoxFit.cover)),
                         ),
                       ],
                     ),
