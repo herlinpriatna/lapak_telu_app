@@ -10,6 +10,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Produk> displayedProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadMoreProducts();
+  }
+
+  void loadMoreProducts() {
+    setState(() {
+      int currentIndex = displayedProducts.length;
+      int endIndex =
+          currentIndex + 4 < produks.length ? currentIndex + 4 : produks.length;
+      displayedProducts.addAll(produks.sublist(currentIndex, endIndex));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

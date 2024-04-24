@@ -3,7 +3,7 @@ import 'package:lapak_telu_app/data/produk.dart';
 import 'package:lapak_telu_app/screen/detail_produk_page.dart';
 
 class EksplorasiPage extends StatefulWidget {
-  const EksplorasiPage({super.key});
+  const EksplorasiPage({Key? key}) : super(key: key);
 
   @override
   _EksplorasiPageState createState() => _EksplorasiPageState();
@@ -30,24 +30,27 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
   int selectedCategoryIndex = -1;
   Color iconColor = Colors.grey;
 
-  // Set untuk menyimpan indeks produk yang disukai
-  Set<int> likedProductIndexes = {};
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(
-              child: Text("Eksplorasi",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold))),
-          backgroundColor: Colors.blue,
-          automaticallyImplyLeading: false),
+        title: Center(
+          child: Text(
+            "Eksplorasi",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Column(
           children: [
-            //Search
+            // Search
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
@@ -83,7 +86,7 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                 ],
               ),
             ),
-            //Kategori
+            // Kategori
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
@@ -139,45 +142,73 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
               ),
             ),
 
+            // Daftar Produk dalam GridView
             Expanded(
-              child: ListView.builder(
-                itemCount: displayedProducts.length,
-                itemBuilder: (context, index) {
+              child: GridView.count(
+                crossAxisCount: 2, // Dua kolom
+                childAspectRatio:
+                    0.7, // Rasio lebar-ke-tinggi untuk setiap item
+                padding: EdgeInsets.all(12.0),
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                children: displayedProducts.map((produk) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailProdukPage(
-                            product: displayedProducts[index],
+                            product: produk,
                           ),
                         ),
                       );
                     },
                     child: Card(
                       elevation: 2,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: ListTile(
-                        leading: Image.asset(
-                          displayedProducts[index].image,
-                          width: 50,
-                          height: 50,
-                        ),
-                        title: Text(displayedProducts[index].name),
-                        subtitle: Text("\Rp ${displayedProducts[index].price}"),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              produk.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  produk.name,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                                Text(
+                                  "\Rp ${produk.price}",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
-                },
+                }).toList(),
               ),
             ),
 
+            // Load More Button
             if (displayedProducts.length < produks.length)
               ElevatedButton(
                 onPressed: loadMoreProducts,
                 child: Text(
-                  "Load More",
+                  "Lebih banyak",
                   style: TextStyle(color: Colors.blue),
                 ),
               ),
