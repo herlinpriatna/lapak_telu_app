@@ -119,7 +119,8 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            final url = 'https://instagram/';
+                                            final url =
+                                                'https://www.instagram.com';
                                             launch(url);
                                           },
                                           child: Image.asset(
@@ -130,7 +131,8 @@ class _DetailProdukPageState extends State<DetailProdukPage> {
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            final url = 'https://facebook/';
+                                            final url =
+                                                'https://www.facebook.com/';
                                             launch(url);
                                           },
                                           child: Image.asset(

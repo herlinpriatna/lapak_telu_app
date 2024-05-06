@@ -91,8 +91,9 @@ class _TokoPageState extends State<TokoPage> {
                                 Text(
                                   produk.name,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 Text(
                                   "\Rp ${produk.price}",

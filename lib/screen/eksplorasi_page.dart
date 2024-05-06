@@ -32,7 +32,7 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
       int endIndex =
           currentIndex + 4 < produks.length ? currentIndex + 4 : produks.length;
 
-      // Filter produk berdasarkan kategori yang dipilih (jika ada)
+      // Filter produk berdasarkan kategori yang dipilih
       if (selectedCategoryIndex != -1) {
         displayedProducts.addAll(produks
             .where(
@@ -45,7 +45,6 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
   }
 
   int selectedCategoryIndex = -1;
-  Color iconColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,9 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Column(
           children: [
+            //
             // Search
+            //
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
@@ -84,8 +85,8 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                              color: Colors.black, // Outline color
-                              width: 0.5, // Outline width
+                              color: Colors.black,
+                              width: 0.5,
                             ),
                           ),
                         ),
@@ -141,7 +142,9 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                 ],
               ),
             ),
+            //
             // Kategori
+            //
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
@@ -155,7 +158,6 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                       onTap: () {
                         setState(() {
                           selectedCategoryIndex = index;
-                          // Clear displayed products before loading new ones
                           displayedProducts.clear();
                           loadMoreProducts();
                         });
@@ -192,13 +194,14 @@ class _EksplorasiPageState extends State<EksplorasiPage> {
                 ),
               ),
             ),
-
-            // Daftar Produk dalam GridView
+            //
+            // Produk
+            //
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2, // Dua kolom
                 childAspectRatio:
-                    0.7, // Rasio lebar-ke-tinggi untuk setiap item
+                    0.7,
                 padding: EdgeInsets.all(12.0),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
